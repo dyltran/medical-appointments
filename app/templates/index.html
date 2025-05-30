@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medical Appointment No-Show Predictor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade-in {
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
+    }
+    .fade-in.visible {
+      opacity: 1;
+    }
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+    }
+    select:invalid {
+      color: #9ca3af; /* Tailwind gray-400 */
+    }
+  </style>
+</head>
+<body class="bg-[#0d1117] text-gray-200 min-h-screen p-4">
+  <div class="max-w-4xl mx-auto bg-[#161b22] p-6 rounded-xl shadow-lg">
+    <h1 class="text-center text-2xl font-semibold text-[#b91c1c] mb-6">Medical Appointment No-Show Predictor</h1>
+
+    <form id="predictionForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+      <!-- Helper: Form group with icon -->
+      <div class="relative">
+        <label for="gender" class="block font-medium">Gender</label>
+        <select id="gender" name="gender" required class="w-full mt-1 p-2 pl-10 rounded bg-gray-900 border border-gray-700 text-white">
+          <option value="" disabled selected hidden>Select</option>
+          <option value="F">Female</option>
+          <option value="M">Male</option>
+        </select>
+        <div class="absolute left-3 top-10 text-gray-400">
+          👤
+        </div>
+      </div>
+
+      <div class="relative">
+        <label for="age" class="block font-medium">Age</label>
+        <input type="number" id="age" name="age" required placeholder="Enter"
+          class="w-full mt-1 p-2 pl-10 rounded bg-gray-900 border border-gray-700 placeholder-gray-400 text-white" />
+        <div class="absolute left-3 top-10 text-gray-400">
+          🎂
+        </div>
+      </div>
+
+      <div class="relative">
+        <label for="neighborhood" class="block font-medium">Neighborhood</label>
+        <select id="neighborhood" name="neighborhood" required class="w-full mt-1 p-2 pl-10 rounded bg-gray-900 border border-gray-700 text-white">
+          <option value="" disabled selected hidden>Select</option>
+          {% for n in neighborhoods %}
+          <option value="{{n}}">{{n}}</option>
+          {% endfor %}
+        </select>
+        <div class="absolute left-3 top-10 text-gray-400">
+          🏘️
+        </div>
+      </div>
+
+      <div class="relative">
+        <label for="scholarship" class="block font-medium">Scholarship</label>
+        <select id="scholarship" name="scholarship" required class="w-full mt-1 p-2 pl-10 rounded bg-gray-900 border border-gray-700 text-white">
+          <option value="" disabled selected hidden>Select</option>
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+        <div class="absolute left-3 top-10 text-gray-400">
+          🎓
+        </div>
+      </div>
+
+      <div class="relative">
+        <label for="hypertension" class="block font-medium">Hypertension</label>
+        <select id="hypertension" name="hypertension" required class="w-full mt-1 p-2 pl-10 rounded bg-gray-900 border border-gray-700 text-white">
+          <option value="" disabled selected hidden>Select</option>
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+        <div class="absolute left-3 top-10 text-gray-400">
+          ❤️
+        </div>
+      </div>
+
+      <div class="relative">
+        <label for="diabetes" class="block font-medium">Diabetes</label>
+        <select id="diabetes" name="diabetes" required class="w-full mt-1 p-2 pl-10 rounded bg-gray-900 border border-gray-700 text-white">
+          <option value="" disabled selected hidden>Select</option>
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+        <div class="absolute left-3 top-10 text-gray-400">
+          🩸
+        </div>
+      </div>
+
+      <div class="relative">
+        <label for="alcoholism" class="block font-medium">Alcoholism</label>
+        <select id="alcoholism" name="alcoholism" required class="w-full mt-1 p-2 pl-10 rounded bg-gray-900 border border-gray-700 text-white">
+          <option value="" disabled selected hidden>Select</option>
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+        <div class="absolute left-3 top-10 text-gray-400">
+          🍺
+        </div>
+      </div>
+
+      <div class="relative">
+        <label for="handicap" class="block font-medium">Handicap</label>
+        <select id="handicap" name="handicap" required class="w-full mt-1 p-2 pl-10 rounded bg-gray-900 border border-gray-700 text-white">
+          <option value="" disabled selected hidden>Select</option>
+          <option value="0">None</option>
+          <option value="1">One Handicap</option>
+          <option value="2">Two Handicaps</option>
+          <option value="3">Three Handicaps</option>
+        </select>
+        <div class="absolute left-3 top-10 text-gray-400">
+          ♿
+        </div>
+      </div>
+
+      <div class="relative">
+        <label for="scheduled_day" class="block font-medium">Scheduled Day</label>
+        <input type="date" id="scheduled_day" name="scheduled_day" min="2016-01-01" max="2016-06-08" required
+          class="w-full mt-1 p-2 pl-10 rounded bg-gray-900 border border-gray-700 text-white" />
+        <div class="absolute left-3 top-10 text-gray-400">
+          📅
+        </div>
+      </div>
+
+      <div class="relative">
+        <label for="appointment_day" class="block font-medium">Appointment Day</label>
+        <input type="date" id="appointment_day" name="appointment_day" min="2016-04-29" max="2016-06-08" required
+          class="w-full mt-1 p-2 pl-10 rounded bg-gray-900 border border-gray-700 text-white" />
+        <div class="absolute left-3 top-10 text-gray-400">
+          🗓️
+        </div>
+      </div>
+
+      <div class="relative">
+        <label for="previous_no_shows" class="block font-medium">Previous No-Shows</label>
+        <input type="number" id="previous_no_shows" name="previous_no_shows" required placeholder="Enter"
+          class="w-full mt-1 p-2 pl-10 rounded bg-gray-900 border border-gray-700 placeholder-gray-400 text-white" />
+        <div class="absolute left-3 top-10 text-gray-400">
+          🔁
+        </div>
+      </div>
+
+      <div class="relative">
+        <label for="sms_received" class="block font-medium">SMS Received</label>
+        <select id="sms_received" name="sms_received" required class="w-full mt-1 p-2 pl-10 rounded bg-gray-900 border border-gray-700 text-white">
+          <option value="" disabled selected hidden>Select</option>
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+        <div class="absolute left-3 top-10 text-gray-400">
+          📲
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="col-span-1 md:col-span-2">
+        <button type="submit" id="predictButton"
+          class="w-full py-2 bg-[#b91c1c] hover:bg-red-600 text-white font-bold rounded transition-all duration-200">
+          Predict
+        </button>
+      </div>
+    </form>
+
+    <!-- Spinner -->
+    <div id="spinner" class="flex justify-center mt-6 hidden">
+      <svg class="animate-spin h-8 w-8 text-[#b91c1c]" xmlns="http://www.w3.org/2000/svg" fill="none"
+           viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor"
+              d="M4 12a8 8 0 018-8v4l3.5-3.5L12 0v4a8 8 0 00-8 8z"></path>
+      </svg>
+    </div>
+
+    <!-- Result -->
+    <div id="result" class="fade-in text-center text-lg font-medium mt-6"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('predictionForm');
+    const resultDiv = document.getElementById('result');
+    const predictButton = document.getElementById('predictButton');
+    const spinner = document.getElementById('spinner');
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      resultDiv.textContent = '';
+      resultDiv.classList.remove('visible');
+      spinner.classList.remove('hidden');
+      predictButton.disabled = true;
+
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch('/predict', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          const icon = data.prediction === 1 ? '❌' : '✅';
+          const message = data.prediction === 1 ? 'Will Not Show Up' : 'Will Show Up';
+          resultDiv.textContent = `${icon} Prediction: ${message}`;
+          setTimeout(() => resultDiv.classList.add('visible'), 10);
+        } else {
+          resultDiv.textContent = `Error: ${data.detail || 'Failed to predict'}`;
+        }
+      } catch (err) {
+        resultDiv.textContent = 'Error: Could not reach server.';
+      } finally {
+        spinner.classList.add('hidden');
+        predictButton.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

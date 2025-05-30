@@ -1,0 +1,2 @@
+*.pkl filter=lfs diff=lfs merge=lfs -text
+assets/rfc.pkl filter=lfs diff=lfs merge=lfs -text
