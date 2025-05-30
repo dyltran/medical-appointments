@@ -1,6 +1,6 @@
 # Predicting Medical Appointment No-Shows With Machine Learning
 
-Analyzing medical appointment data from Brazil's Greater Vitória metropolitan area to predict patient no-shows. This project employs descriptive and predictive analytics to identify key factors influencing patient attendance, ultimately aiming to inform and improve healthcare delivery processes. All steps in the data pipeline can be viewed in this repository's **data_cleaning_and_exploration.ipynb** and **data_preprocessing_and_model_training**.
+Analyzing medical appointment data from Brazil's Greater Vitória metropolitan area to predict patient no-shows. This project employs descriptive and predictive analytics to identify key factors influencing patient attendance, ultimately aiming to inform and improve healthcare delivery processes. All steps in the data pipeline can be viewed in this repository's **data_cleaning_and_exploration.ipynb** and **data_preprocessing_and_model_training.ipynb**.
 
 ![Alt text](images/vitoria.jpg)
 
